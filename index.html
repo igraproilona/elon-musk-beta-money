@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Elon musk money 💰(beta)</title>
+    <style>
+        /* === СТИЛИ ИНТЕРФЕЙСА === */
+        :root {
+            --neon: #00f2ff;
+            --gold: #ffcf00;
+            --green: #44ff44;
+            --red: #ff4444;
+            --bg: #05070a;
+            --card: #12141d;
+        }
+
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        /* ШАПКА */
+        .top-nav {
+            background: #161b22;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--neon);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .game-title {
+            font-size: 14px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        #money-display {
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--green);
+            margin: 5px 0;
+            text-shadow: 0 0 15px rgba(68, 255, 68, 0.3);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            max-width: 500px;
+            margin: 0 auto;
+            font-family: monospace;
+            color: var(--neon);
+            font-size: 11px;
+        }
+
+        /* КОНТЕНТ */
+        .container {
+            padding: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cat-title {
+            font-size: 18px;
+            color: var(--neon);
+            margin: 30px 0 15px;
+            text-transform: uppercase;
+            border-left: 4px solid var(--neon);
+            padding-left: 12px;
+        }
+
+        /* КАРТОЧКА ТОВАРА */
+        .shop-item {
+            background: var(--card);
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .item-box {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-circle {
+            width: 55px;
+            height: 55px;
+            background: #000;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            border: 1px solid #222;
+        }
+
+        .meta b { font-size: 17px; display: block; }
+        .meta i { font-size: 14px; color: var(--gold); font-style: normal; font-weight: bold; }
+        .meta small { font-size: 11px; color: var(--neon); display: block; }
+
+        .btn-buy {
+            background: var(--neon);
+            color: #000;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-weight: 900;
+            font-size: 12px;
+        }
+
+        .btn-buy:active { transform: scale(0.95); }
+
+        /* АДМИН ПАНЕЛЬ */
+        #admin-panel {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98);
+            z-index: 1000;
+            padding: 25px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            color: #0f0;
+            font-family: monospace;
+        }
+
+        .adm-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .adm-btn {
+            background: transparent;
+            border: 1px solid #0f0;
+            color: #0f0;
+            padding: 15px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .adm-btn:active { background: #0f0; color: #000; }
+    </style>
+</head>
+<body>
+
+    <div id="admin-panel">
+        <h2 style="text-align:center;">--- ROOT TERMINAL ---</h2>
+        <div class="adm-grid">
+            <button class="adm-btn" onclick="aMoney()">+$100 TRIL</button>
+            <button class="adm-btn" onclick="aFree()">FREE SHOP</button>
+            <button class="adm-btn" onclick="aInc()">MAX INCOME</button>
+            <button class="adm-btn" onclick="aSpeed()">SPEEDHACK</button>
+            <button class="adm-btn" onclick="aInvert()">INVERT</button>
+            <button class="adm-btn" onclick="aMatrix()">MATRIX</button>
+            <button class="adm-btn" onclick="aReset()">RESET</button>
+            <button class="adm-btn" onclick="aBan()">BAN PLAYER</button>
+        </div>
+        <button onclick="closeAdm()" style="width:100%; margin-top:40px; border:1px solid red; color:red; background:none; padding:15px;">ВЫХОД</button>
+    </div>
+
+    <div class="top-nav">
+        <div class="game-title">Elon musk money 💰(beta)</div>
+        <div class="stats-bar">
+            <span onclick="tryAdm()">PLAYER_ID: <b id="p-id">ADM-777</b></span>
+            <span>RANK: <b id="p-rank">НОВИЧОК</b></span>
+        </div>
+        <div id="money-display">$1,000,000,000,000</div>
+        <div style="color: var(--gold); font-weight:bold;">ДОХОД: +$<span id="inc-display">0</span>/сек</div>
+    </div>
+
+    <div class="container">
+        
+        <div class="cat-title">💎 Покупки</div>
+        <div class="shop-item">
+            <div class="item-box">
+                <div class="icon-circle">🔹</div>
+                <div class="meta"><b>X (Twitter) Blue</b><i>$8</i></div>
+            </div>
+            <button class="btn-buy" onclick="buy(8)">BUY</button>
+        </div>
+
+        <div class="shop-item">
+            <div class="item-box">
+                <div class="icon-circle">📐</div>
+                <div class="meta"><b>CyberTruck</b><i>$65,000</i></div>
+            </div>
+            <button class="btn-buy" onclick="buy(65000)">BUY</button>
+        </div>
+
+        <div class="shop-item">
+            <div class="item-box">
+                <div class="icon-circle">🏢</div>
+                <div class="meta"><b>Офис SpaceX</b><i>$500,000,000</i></div>
+            </div>
+            <button class="btn-buy" onclick="buy(500000000)">BUY</button>
+        </div>
+
+        <div class="cat-title">📈 Бизнес (Доход)</div>
+        <div class="shop-item">
+            <div class="item-box">
+                <div class="icon-circle">📟</div>
+                <div class="meta"><b>Крипто Ферма</b><i>$25,000</i><small>+$1,500/сек</small></div>
+            </div>
+            <button class="btn-buy" onclick="invest(25000, 1500)" style="background:var(--gold)">INVEST</button>
+        </div>
+
+        <div class="shop-item">
+            <div class="item-box">
+                <div class="icon-circle">🛰️</div>
+                <div class="meta"><b>Starlink</b><i>$2,000,000</i><small>+$85,000/сек</small></div>
+            </div>
+            <button class="btn-buy" onclick="invest(2000000, 85000)" style="background:var(--gold)">INVEST</button>
+        </div>
+
+        <div class="shop-item">
+            <div class="item-box">
+                <div class="icon-circle">🚀</div>
+                <div class="meta"><b>Starship Rocket</b><i>$10,000,000,000</i><small>+$250M/сек</small></div>
+            </div>
+            <button class="btn-buy" onclick="invest(10000000000, 250000000)" style="background:var(--gold)">INVEST</button>
+        </div>
+
+        <div class="cat-title">🌌 Космос</div>
+        <div class="shop-item">
+            <div class="item-box">
+                <div class="icon-circle">🚩</div>
+                <div class="meta"><b>База на Марсе</b><i>$1,000,000,000,000</i><small>+$10B/сек</small></div>
+            </div>
+            <button class="btn-buy" onclick="invest(1000000000000, 10000000000)" style="background:var(--gold)">INVEST</button>
+        </div>
+
+    </div>
+
+    <script>
+        let money = 1000000000000;
+        let income = 0;
+        let isFree = false;
+        let admCount = 0;
+
+        function update() {
+            document.getElementById('money-display').innerText = "$" + Math.floor(money).toLocaleString();
+            document.getElementById('inc-display').innerText = income.toLocaleString();
+        }
+
+        function buy(p) {
+            let c = isFree ? 0 : p;
+            if(money >= c) { money -= c; update(); }
+            else { alert("Мало денег!"); }
+        }
+
+        function invest(p, i) {
+            if(money >= p) { money -= p; income += i; update(); }
+            else { alert("Мало денег!"); }
+        }
+
+        setInterval(() => { money += income; update(); }, 1000);
+
+        // АДМИНКА
+        function tryAdm() {
+            admCount++;
+            if(admCount >= 5) {
+                let p = prompt("ВВЕДИТЕ ПАРОЛЬ:");
+                if(p === "12345678901") {
+                    document.getElementById('admin-panel').style.display = 'block';
+                }
+                admCount = 0;
+            }
+        }
+
+        function closeAdm() { document.getElementById('admin-panel').style.display = 'none'; }
+        function aMoney() { money += 100000000000000; update(); }
+        function aFree() { isFree = true; alert("Цены: 0"); }
+        function aInc() { income += 1000000000; update(); }
+        function aInvert() { document.body.style.filter = "invert(1)"; }
+        function aMatrix() { document.body.style.background = "#000"; document.body.style.color = "#0f0"; }
+        function aReset() { location.reload(); }
+        function aBan() { document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:200px;'>YOU ARE BANNED</h1>"; }
+        
+        update();
+    </script>
+</body>
+  </html>
